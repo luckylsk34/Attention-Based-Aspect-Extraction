@@ -108,6 +108,11 @@ model.compile(optimizer=optimizer, loss=U.max_margin_loss, metrics=[U.max_margin
 #
 from tqdm import tqdm
 
+# Avoid the following error:
+# ValueError: tf.function-decorated function tried to create variables on non-first call.
+import tensorflow as tf
+tf.config.run_functions_eagerly(True)
+
 logger.info("-"*80)
 
 vocab_inv = {}
@@ -141,7 +146,8 @@ for ii in range(args.epochs):
         word_emb = word_emb / np.linalg.norm(word_emb, axis=-1, keepdims=True)
         aspect_emb = aspect_emb / np.linalg.norm(aspect_emb, axis=-1, keepdims=True)
         aspect_file = open(out_dir + '/aspect.log', 'wt', encoding='utf-8')
-        model.save(out_dir + '/model_param')
+        # Commented out to avoid error.
+        # model.save(out_dir + '/model_param')
 
         for ind in range(len(aspect_emb)):
             desc = aspect_emb[ind]
