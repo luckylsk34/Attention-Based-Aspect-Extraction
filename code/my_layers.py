@@ -128,7 +128,7 @@ class WeightedAspectEmb(Layer):
             self.uses_learning_phase = True
         self.initial_weights = weights
         kwargs['input_shape'] = (self.input_length,)
-        kwargs['input_dtype'] = K.floatx()
+        kwargs['dtype'] = K.floatx()
         super(WeightedAspectEmb, self).__init__(**kwargs)
 
     def build(self, input_shape):
